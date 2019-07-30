@@ -1,6 +1,6 @@
 # 整体结构
 
-Hyperledger Fabric 在 1.0 中，架构已经解耦为三部分：
+Hyperledger Fabric 从 1.0.0 开始，架构已经解耦为三个主要部分：
 
 * fabric-peer：主要起到 peer 作用，包括 endorser、committer 两种角色；
 * fabric-ca：即原先的 membersrvc，独立成一个新的项目。
@@ -9,22 +9,26 @@ Hyperledger Fabric 在 1.0 中，架构已经解耦为三部分：
 其中，fabric-peer 和 fabric-order 代码暂时都在 fabric 项目中，未来可能进一步拆分。
 
 ## 核心代码
-fabric 项目中主要包括代码、工具、脚本等部分，核心源代码目前约为 430 个文件，80K 行。
+fabric 项目中主要包括代码、工具、脚本等部分，核心源代码目前（v1.4.0）为 786 个文件，147K 行。
 
 ```sh
 $ cd fabric
-$ find bccsp common core events gossip msp orderer peer protos \
+$ find bccsp cmd common core discovery gossip idemix internal msp orderer peer protos token \
     -not -path "*/vendor/*" \
+    -not -path "*mock*" \
     -name "*.go"  \
     -not -name "*_test.go" \
+    -not -name "test_*.go" \
     | wc -l
-431
-$ find bccsp common core events gossip msp orderer peer protos \
+786
+$ find bccsp cmd common core discovery gossip idemix internal msp orderer peer protos token \
     -not -path "*/vendor/*" \
+    -not -path "*mock*" \
     -name "*.go"  \
     -not -name "*_test.go" \
+    -not -name "test_*.go" \
     | xargs cat | wc -l
-80560
+147413
 ```
 
 ### 源代码
